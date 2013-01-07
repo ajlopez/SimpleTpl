@@ -1,7 +1,7 @@
 { "name": "simpletpl"
 , "description": "Simple Template engine for Node.js"
 , "keywords": [ "template", "engine", "nodejs", "javascript" ]
-, "version": "0.1.0-beta"
+, "version": "0.0.1"
 , "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
 , "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleTpl.git" }
 , "main": "./lib/simpletpl.js"

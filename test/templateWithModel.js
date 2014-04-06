@@ -17,6 +17,8 @@ context.x = "Mundo";
 context.z = "Hola";
 assert.equal(doTemplate("${z}, ${x}"), "Hola, World");
 
+assert.equal(doTemplate("<# for (var k = 1; k <= 3; k++) { #>\r\n${k}\r\n<# } #>\r\n"), "1\r\n2\r\n3\r\n");
+
 function doTemplate(text)
 {
     var template = $.compileTemplate(text);

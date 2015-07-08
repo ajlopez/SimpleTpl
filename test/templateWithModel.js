@@ -1,25 +1,39 @@
 
-var $ = require('../')
-  , assert = require('assert');
-  
-assert.equal(doTemplate("Hello, World"), "Hello, World");
+var $ = require('../');
 
-var model = {};
-var context = {};
+exports['do template'] = function (test) {
+	test.equal(doTemplate("Hello, World"), "Hello, World");
+}
 
-model.x = "World";
-model.y = "Hello";
+exports['do template with model'] = function (test) {
+	var model = {};
+	var context = {};
 
-assert.equal(doTemplate("Hello, ${x}"), "Hello, World");
-assert.equal(doTemplate("${y}, ${x}"), "Hello, World");
+	model.x = "World";
+	model.y = "Hello";
 
-context.x = "Mundo";
-context.z = "Hola";
-assert.equal(doTemplate("${z}, ${x}"), "Hola, World");
+	test.equal(doTemplate("Hello, ${x}", model, context), "Hello, World");
+	test.equal(doTemplate("${y}, ${x}", model, context), "Hello, World");
+}
+	
+exports['do template with model and context'] = function (test) {
+	var model = {};
+	var context = {};
 
-assert.equal(doTemplate("<# for (var k = 1; k <= 3; k++) { #>\r\n${k}\r\n<# } #>\r\n"), "1\r\n2\r\n3\r\n");
+	model.x = "World";
+	model.y = "Hello";
 
-function doTemplate(text)
+	context.x = "Mundo";
+	context.z = "Hola";
+
+	test.equal(doTemplate("${z}, ${x}", model, context), "Hola, World");
+}
+
+exports['do template with for command'] = function (test) {
+	test.equal(doTemplate("<# for (var k = 1; k <= 3; k++) { #>\r\n${k}\r\n<# } #>\r\n"), "1\r\n2\r\n3\r\n");
+}
+	
+function doTemplate(text, model, context)
 {
     var template = $.compileTemplate(text);
     return template(model, context);

@@ -1,23 +1,40 @@
 
-var $ = require('../')
-  , assert = require('assert');
+var $ = require('../');
   
-assert.equal(doTemplate("Hello, World"), "Hello, World");
+exports['simple template'] = function (test) {
+    test.equal(doTemplate("Hello, World"), "Hello, World");
+    test.done();
+}
 
-var model = {};
-var context = {};
+exports['template using model and empty context'] = function (test) {
+    var model = {};
+    var context = {};
 
-model.x = "World";
-model.y = "Hello";
+    model.x = "World";
+    model.y = "Hello";
 
-assert.equal(doTemplate("Hello, ${x}"), "Hello, World");
-assert.equal(doTemplate("${y}, ${x}"), "Hello, World");
+    test.equal(doTemplate("Hello, ${x}", model, context), "Hello, World");
+    test.equal(doTemplate("${y}, ${x}", model, context), "Hello, World");
+    
+    test.done();
+}
 
-context.x = "Mundo";
-context.z = "Hola";
-assert.equal(doTemplate("${z}, ${x}"), "Hola, World");
+exports['template using model and context'] = function (test) {
+    var model = {};
+    var context = {};
 
-function doTemplate(text)
+    model.x = "World";
+    model.y = "Hello";
+
+    context.x = "Mundo";
+    context.z = "Hola";
+    
+    test.equal(doTemplate("${z}, ${x}", model, context), "Hola, World");
+    
+    test.done();
+}
+
+function doTemplate(text, model, context)
 {
     var template = $.compile(text, { context: context });
     return template(model);

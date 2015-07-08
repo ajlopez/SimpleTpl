@@ -1,24 +1,28 @@
 
-var $ = require('../')
-  , assert = require('assert');
+var $ = require('../');
   
-var context = {};
+exports['do template'] = function (test) {
+	var context = {};
 
-context.x = "World";
-context.y = "Hello";
+	context.x = "World";
+	context.y = "Hello";
 
-assert.equal(doTemplate("Hello, ${x}"), "Hello, World");
-assert.equal(doTemplate("${y}, ${x}"), "Hello, World");
+	test.equal(doTemplate("Hello, ${x}", context), "Hello, World");
+	test.equal(doTemplate("${y}, ${x}", context), "Hello, World");
+}
 
-var result;
+exports['do template using function'] = function (test) {
+	var result;
+	var context = {};
 
-context.include = function(text) { result = text; };
+	context.include = function(text) { result = text; };
 
-doTemplate("<# include('foo'); #>");
+	doTemplate("<# include('foo'); #>", context);
 
-assert.equal(result, 'foo');
-
-function doTemplate(text)
+	test.equal(result, 'foo');
+}
+	
+function doTemplate(text, context)
 {
     var template = $.compileTemplate(text);
     return template(null, context);
